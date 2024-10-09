@@ -1,0 +1,42 @@
+services:
+
+  db:
+    container_name: db_postgres
+    image: postgres:17
+    volumes:
+      - ./volumes/data:/var/lib/postgresql/data
+    ports:
+      - "${DB_PORT}:5432"
+    # expose:
+    #   - "5432"
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    env_file:
+      - ./.env
+    networks:
+      - dev
+    restart: unless-stopped
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: a.seleznev@avgr.su
+      PGADMIN_DEFAULT_PASSWORD: a.seleznev
+      # PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_LISTEN_PORT: 5050
+    ports:
+      - "5050:5050"
+    volumes:
+      - ./volumes/pgadmin-data:/var/lib/pgadmin
+    networks:
+      - dev
+    restart: unless-stopped
+
+networks:
+  dev:
+
+volumes:
+  db:
+  pgadmin-data:

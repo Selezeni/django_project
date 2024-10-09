@@ -3,3 +3,5 @@
 .vscode/
 *.sqlite3
 __pycache__/
+volumes/
+mysite_data.json
